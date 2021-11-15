@@ -121,12 +121,16 @@ function App() {
         <HashRouter>
           <Switch>
             <Route exact path={"/"} component={RecordGame} />
-            <Route exact path={"/boardgameList"} component={BoardgamesList} />
-            <Route exact path={"/playersList"} component={PlayersList} />
-            <Route exact path={"/gameRecordList"} component={GameRecordList} />
+            <Route exact path={"/#/boardgameList"} component={BoardgamesList} />
+            <Route exact path={"/#/playersList"} component={PlayersList} />
             <Route
               exact
-              path={"/playersList/:id/playerDetails"}
+              path={"/#/gameRecordList"}
+              component={GameRecordList}
+            />
+            <Route
+              exact
+              path={"/#/playersList/:id/playerDetails"}
               component={PlayerDetails}
             />
           </Switch>

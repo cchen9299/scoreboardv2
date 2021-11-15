@@ -120,7 +120,8 @@ function RecordGame() {
         <Input
           onChange={(e) => setProvidedPassword(e.target.value)}
           mt={2}
-        ></Input>
+          maxW="500px"
+        />
         <Box p={2} />
         <Button
           colorScheme="yellow"
