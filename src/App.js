@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Switch, Route, Link, useLocation } from "react-router-dom";
+import { Switch, Route, Link, useLocation } from "react-router-dom";
 
 import {
   Button,
@@ -23,6 +23,7 @@ import GameRecordList from "./screens/GameRecordList";
 function App() {
   const currentLocation = useLocation().pathname;
   const { isOpen, onToggle } = useDisclosure();
+  console.log(currentLocation);
 
   const linkMap = [
     {
@@ -118,23 +119,17 @@ function App() {
       </Flex>
 
       <Container maxW="container.xl" p={4}>
-        <HashRouter>
-          <Switch>
-            <Route exact path={"/"} component={RecordGame} />
-            <Route exact path={"/#/boardgameList"} component={BoardgamesList} />
-            <Route exact path={"/#/playersList"} component={PlayersList} />
-            <Route
-              exact
-              path={"/#/gameRecordList"}
-              component={GameRecordList}
-            />
-            <Route
-              exact
-              path={"/#/playersList/:id/playerDetails"}
-              component={PlayerDetails}
-            />
-          </Switch>
-        </HashRouter>
+        <Switch>
+          <Route exact path={"/"} component={RecordGame} />
+          <Route exact path={"/boardgameList"} component={BoardgamesList} />
+          <Route exact path={"/playersList"} component={PlayersList} />
+          <Route exact path={"/gameRecordList"} component={GameRecordList} />
+          <Route
+            exact
+            path={"/playersList/:id/playerDetails"}
+            component={PlayerDetails}
+          />
+        </Switch>
       </Container>
     </Flex>
   );

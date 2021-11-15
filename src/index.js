@@ -10,7 +10,7 @@ import {
 } from "@apollo/client";
 import * as Realm from "realm-web";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 dotenv.config();
@@ -47,7 +47,9 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <ChakraProvider>
       <BrowserRouter>
-        <App />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </BrowserRouter>
     </ChakraProvider>
   </ApolloProvider>,
