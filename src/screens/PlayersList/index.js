@@ -20,15 +20,13 @@ import AppTable from "../../components/AppTable";
 
 function PlayersList() {
   const { loading, data } = useQuery(READ_ALL);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [newPlayers, setNewPlayers] = useState(null);
   let players, gameRecords;
   if (!loading && data) {
     players = data.players;
     gameRecords = data.gameRecords;
-  }
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [newPlayers, setNewPlayers] = useState(null);
+  } else return null;
 
   const handleSubmit = () => {
     // if (newPlayers === null) {
@@ -44,7 +42,7 @@ function PlayersList() {
 
   const contentMap = {
     headerContent: ["First Name", "Last Name", "Games Played"],
-    bodyContent: players.map((player) => {
+    bodyContent: players?.map((player) => {
       return [player.firstName, player.lastName, "..."];
     }),
   };
