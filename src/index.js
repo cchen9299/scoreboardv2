@@ -16,12 +16,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 dotenv.config();
 const APP_ID = "scoreboard-vvnfl";
 // const APP_ID = process.env.APP_ID;
-const API_KEY = process.env.MONGODB_GRAPHQL_API_KEY;
+// const API_KEY = process.env.MONGODB_GRAPHQL_API_KEY;
 const app = new Realm.App(APP_ID);
 
 async function getValidAccessToken() {
   if (!app.currentUser) {
-    await app.logIn(Realm.Credentials.apiKey(API_KEY));
+    await app.logIn(Realm.Credentials.anonymous());
   } else {
     await app.currentUser.refreshCustomData();
   }
