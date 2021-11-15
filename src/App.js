@@ -23,7 +23,6 @@ import GameRecordList from "./screens/GameRecordList";
 function App() {
   const currentLocation = useLocation().pathname;
   const { isOpen, onToggle } = useDisclosure();
-  console.log(currentLocation);
 
   const linkMap = [
     {

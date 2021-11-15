@@ -40,7 +40,7 @@ function RecordGame() {
       setInputError("i don't see a boardgame played");
       return;
     }
-    if (gameRecordPlayersData.length > 1) {
+    if (gameRecordPlayersData.length < 1) {
       setInputError(
         "unless fred played alone and didn't count himself as a player, i need players"
       );
@@ -92,7 +92,7 @@ function RecordGame() {
 
   return (
     <Flex direction={"column"}>
-      <Heading size="lg">Record Game</Heading>
+      <Heading>Record Game</Heading>
       <Box pt={2} />
       <form
         name={"gameRecordForm"}

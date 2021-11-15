@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Input, IconButton, Box } from "@chakra-ui/react";
+import { Input, IconButton, Box, Flex } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 
 export default function AddExpansionField({ parentCallback }) {
@@ -31,30 +31,29 @@ export default function AddExpansionField({ parentCallback }) {
     <div>
       {workingExpansionList?.map((item, index) => {
         return (
-          <div key={index}>
-            <Box p={2}>
-              <Input
-                autoComplete="off"
-                isRequired
-                placeholder={`Expansion ${index + 1} Name...`}
-                value={item}
-                onChange={(e) => {
-                  handleValueChange(e, index);
-                }}
-                onBlur={(e) => {
-                  handleOnBlur(e, index);
-                }}
-                name={`expansion${index}`}
-              />
-              <IconButton
-                onClick={(e) => {
-                  handleDelete(e, index);
-                }}
-                children={"Delete"}
-                icon={<SmallCloseIcon />}
-              />
-            </Box>
-          </div>
+          <Flex key={index} mt={2}>
+            <Input
+              mr={2}
+              autoComplete="off"
+              isRequired
+              placeholder={`Expansion ${index + 1} Name...`}
+              value={item}
+              onChange={(e) => {
+                handleValueChange(e, index);
+              }}
+              onBlur={(e) => {
+                handleOnBlur(e, index);
+              }}
+              name={`expansion${index}`}
+            />
+            <IconButton
+              onClick={(e) => {
+                handleDelete(e, index);
+              }}
+              children={"Delete"}
+              icon={<SmallCloseIcon />}
+            />
+          </Flex>
         );
       })}
       <AddButton

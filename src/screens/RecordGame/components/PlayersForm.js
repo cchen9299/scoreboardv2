@@ -76,6 +76,8 @@ export default function PlayersForm({
               onChange={handlePlayerSearchOnChange}
               onBlurCapture={handleOnBlur}
             />
+            {/* TODO: add CLEAR button */}
+            {/* TODO: componentize search bar*/}
           </InputGroup>
         </Flex>
         {showPlayerSearchResults && (

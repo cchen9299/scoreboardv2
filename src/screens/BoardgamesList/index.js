@@ -12,47 +12,105 @@ import {
   ModalCloseButton,
   useDisclosure,
   Heading,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import AddExpansionField from "../../components/AddExpansionField";
-import { useQuery } from "@apollo/client";
-import { READ_BOARDGAMES } from "../../graphql/operations";
+import { AlertIcon, Alert, AlertDescription } from "@chakra-ui/alert";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  READ_BOARDGAMES,
+  INSERT_ONE_BOARDGAME,
+} from "../../graphql/operations";
 import AppTable from "../../components/AppTable";
 
 function BoardgamesList() {
   const { loading, data } = useQuery(READ_BOARDGAMES);
+
+  const [insertOneBoardgame, { loading: adding }] = useMutation(
+    INSERT_ONE_BOARDGAME,
+    {
+      refetchQueries: [READ_BOARDGAMES],
+    }
+  );
   const boardgames = data?.boardgames;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [newBoardgame, setNewBoardgame] = useState(null);
+  const toast = useToast();
+
+  const [newBoardgameName, setNewBoardgameName] = useState("");
   const [newExpansions, setNewExpansions] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleBoardgameSubmit = () => {
-    // const data = {
-    //   name: newBoardgame.name,
-    //   expansionsOwned: [...newExpansions],
-    // };
-    // onClose();
-  };
-
-  const handleNewExpansions = (newExpansions) => {
-    // setNewExpansions([...newExpansions]);
+  const contentMap = {
+    headerContent: ["Name", "Games Played", "Last Played"],
+    bodyContent: boardgames?.map((boardgame) => {
+      return [boardgame.name, "...", "..."];
+    }),
   };
 
   const handleNewBoardgameName = (e) => {
-    // const item = { name: e.target.value };
-    // setNewBoardgame(item);
+    setNewBoardgameName(e.target.value);
+  };
+
+  const handleBoardgameSubmit = async (e) => {
+    e.preventDefault();
+    const hasDuplicateBoardgame = boardgames.some((boardgame) => {
+      return boardgame.name === newBoardgameName;
+    });
+    const dupeNewExpansions = newExpansions.filter((expansion, index) => {
+      return newExpansions.indexOf(expansion) !== index;
+    });
+    const hasDupeExpansions = dupeNewExpansions.length > 0;
+
+    if (hasDuplicateBoardgame) {
+      setErrorMessage("already got this game");
+      return;
+    }
+    if (hasDupeExpansions) {
+      setErrorMessage(
+        `duped expansion(s): ${dupeNewExpansions.map((expansion) => expansion)}`
+      );
+    }
+
+    await insertOneBoardgame({
+      variables: {
+        data: {
+          name: newBoardgameName,
+          expansionsOwned: newExpansions,
+        },
+      },
+    })
+      .then(() =>
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" p={3} bg="green.500">
+              Success!
+            </Box>
+          ),
+        })
+      )
+      .catch((error) => {
+        toast({
+          position: "bottom",
+          render: () => (
+            <Box color="white" p={3} bg="red.500">
+              {error}
+            </Box>
+          ),
+        });
+      });
   };
 
   if (loading || !data) {
     return null;
   }
 
-  const contentMap = {
-    headerContent: ["Name", "Games Played", "Last Played"],
-    bodyContent: boardgames.map((boardgame) => {
-      return [boardgame.name, "...", "..."];
-    }),
-  };
+  // TODO: query games played 1
+  // TODO: query last played 3
+  // TODO: write update logic 7
+  // TODO: write delete logic 3
 
   return (
     <Box>
@@ -72,19 +130,35 @@ function BoardgamesList() {
       >
         <ModalOverlay />
         <ModalContent>
-          <form>
+          <form onSubmit={(e) => handleBoardgameSubmit(e)}>
             <ModalHeader>Add Boardgame</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Input
                 placeholder="Boardgame Name"
                 onChange={(e) => handleNewBoardgameName(e)}
+                isRequired
               />
-              <AddExpansionField parentCallback={handleNewExpansions} />
+              <AddExpansionField
+                parentCallback={(data) => setNewExpansions([...data])}
+              />
+              {errorMessage && (
+                <Alert status={"error"} mt={2}>
+                  <AlertIcon />
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+              )}
             </ModalBody>
             <ModalFooter>
-              <Button type="submit" onClick={handleBoardgameSubmit}>
-                Add Boardgame
+              <Button
+                colorScheme="yellow"
+                variant={"solid"}
+                type="submit"
+                disabled={adding}
+                width="100%"
+                maxW="500px"
+              >
+                {adding ? <Spinner /> : "Add Boardgame"}
               </Button>
             </ModalFooter>
           </form>

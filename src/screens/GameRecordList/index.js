@@ -50,6 +50,9 @@ function PlayersList() {
   if (!data || loading) {
     return null;
   }
+  // TODO: write winner logic 7
+  // TODO: write update logic 7
+  // TODO: write delete logic 3
 
   return (
     <Box>

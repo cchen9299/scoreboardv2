@@ -87,3 +87,29 @@ export const INSERT_RECORD = gql`
     }
   }
 `;
+
+export const INSERT_ONE_BOARDGAME = gql`
+  mutation insertOneBoardgame($data: BoardgameInsertInput!) {
+    insertOneBoardgame(data: $data) {
+      name
+      expansionsOwned
+    }
+  }
+`;
+
+export const INSERT_ONE_PLAYER = gql`
+  mutation InsertPlayer($data: PlayerInsertInput!) {
+    insertOnePlayer(data: $data) {
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const INSERT_MANY_PLAYERS = gql`
+  mutation InsertPlayers($data: PlayerInsertInput!) {
+    insertManyPlayers(data: [$data]) {
+      insertedIds
+    }
+  }
+`;
