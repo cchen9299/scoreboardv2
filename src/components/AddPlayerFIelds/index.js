@@ -1,42 +1,45 @@
-import { SmallCloseIcon } from "@chakra-ui/icons";
-import { Input, IconButton } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { capitalizeSingleWord } from "../../util/helper";
+import { SmallCloseIcon } from '@chakra-ui/icons'
+import { Input, IconButton } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { capitalizeSingleWord } from '../../util/helper'
+import PropTypes, { objectOf } from 'prop-types'
 
-export default function AddPlayerFields({ parentCallback }) {
+export default function AddPlayerFields ({ parentCallback, selectedPlayer }) {
   const [itemsArray, setItemsArray] = useState([
-    { firstName: "", lastName: "" },
-  ]);
+    selectedPlayer
+      ? { ...selectedPlayer }
+      : { _id: '', firstName: '', lastName: '' }
+  ])
 
   useEffect(() => {
-    parentCallback(itemsArray);
-  }, [itemsArray]);
+    // need to update this when sending back multiple players
+    parentCallback(...itemsArray)
+  }, [itemsArray])
 
   const handleChange = (index, key, value) => {
-    const list = [...itemsArray];
-    list[index][key] = capitalizeSingleWord(value);
-    setItemsArray(list);
-    parentCallback(list);
-  };
+    const list = [...itemsArray]
+    list[index][key] = capitalizeSingleWord(value)
+    setItemsArray(list)
+    parentCallback(list)
+  }
 
   const handleDelete = (index) => {
-    const list = [...itemsArray];
-    list.splice(index, 1);
-    setItemsArray(list);
-  };
+    const list = [...itemsArray]
+    list.splice(index, 1)
+    setItemsArray(list)
+  }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {itemsArray?.map((item, index) => {
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {itemsArray.map((item, index) => {
         return (
-          <div style={{ display: "flex", marginTop: 8 }} key={index}>
+          <div style={{ display: 'flex', marginTop: 8 }} key={index}>
             <Input
               mr={2}
               placeholder={`First Name...${index}`}
               value={item.firstName}
               onChange={(e) => {
-                handleChange(index, "firstName", e.target.value);
+                handleChange(index, 'firstName', e.target.value)
               }}
               isRequired={true}
               name={`firstName${index}`}
@@ -46,7 +49,7 @@ export default function AddPlayerFields({ parentCallback }) {
               placeholder={`Last Name...${index}`}
               value={item.lastName}
               onChange={(e) => {
-                handleChange(index, "lastName", e.target.value);
+                handleChange(index, 'lastName', e.target.value)
               }}
               isRequired={true}
               name={`lastName${index}`}
@@ -54,30 +57,17 @@ export default function AddPlayerFields({ parentCallback }) {
             <IconButton
               icon={<SmallCloseIcon />}
               onClick={() => {
-                handleDelete(index);
+                handleDelete(index)
               }}
-              children={"Delete"}
             />
           </div>
-        );
+        )
       })}
-      {/* TODO: figure out how to insert many 3 */}
-      {/* <AddButton
-        onClick={() => {
-          const list = [...itemsArray];
-          list.push({ firstName: "", lastName: "" });
-          setItemsArray(list);
-        }}
-      >
-        Add Another Player
-      </AddButton> */}
     </div>
-  );
+  )
 }
 
-const AddButton = styled.div`
-  font-weight: bold;
-  cursor: pointer;
-  padding: 8px 0;
-  color: steelblue;
-`;
+AddPlayerFields.propTypes = {
+  parentCallback: PropTypes.func,
+  selectedPlayer: objectOf(PropTypes.any)
+}

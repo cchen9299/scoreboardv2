@@ -1,5 +1,5 @@
-import React from "react";
-import { Switch, Route, Link, useLocation } from "react-router-dom";
+import React from 'react'
+import { Switch, Route, Link, useLocation } from 'react-router-dom'
 
 import {
   Button,
@@ -10,46 +10,46 @@ import {
   Collapse,
   Stack,
   Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { SmallCloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+  useDisclosure
+} from '@chakra-ui/react'
+import { SmallCloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 
-import BoardgamesList from "./screens/BoardgamesList";
-import RecordGame from "./screens/RecordGame";
-import PlayersList from "./screens/PlayersList";
-import PlayerDetails from "./screens/PlayerDetails";
-import GameRecordList from "./screens/GameRecordList";
+import BoardgamesList from './screens/BoardgamesList'
+import RecordGame from './screens/RecordGame'
+import PlayersList from './screens/PlayersList'
+import PlayerDetails from './screens/PlayerDetails'
+import GameRecordList from './screens/GameRecordList'
 
-function App() {
-  const currentLocation = useLocation().pathname;
-  const { isOpen, onToggle } = useDisclosure();
+function App () {
+  const currentLocation = useLocation().pathname
+  const { isOpen, onToggle } = useDisclosure()
 
   const linkMap = [
     {
-      path: "/",
-      linkName: "Record",
+      path: '/',
+      linkName: 'Record'
     },
     {
-      path: "/boardgameList",
-      linkName: "Boardgames",
+      path: '/boardgameList',
+      linkName: 'Boardgames'
     },
     {
-      path: "/playersList",
-      linkName: "Players",
+      path: '/playersList',
+      linkName: 'Players'
     },
     {
-      path: "/gameRecordList",
-      linkName: "History",
-    },
-  ];
+      path: '/gameRecordList',
+      linkName: 'History'
+    }
+  ]
 
   return (
-    <Flex direction={"column"} style={{ height: "100vh" }}>
-      <Flex bg={"blue.100"}>
+    <Flex direction={'column'} style={{ height: '100vh' }}>
+      <Flex bg={'blue.100'}>
         <Container maxW="container.xl" pt={2} pb={2}>
           {/* desktop nav */}
           <Box
-            display={{ base: "none", md: "flex" }}
+            display={{ base: 'none', md: 'flex' }}
             alignItems="center"
             justifyContent="space-between"
           >
@@ -60,13 +60,13 @@ function App() {
                     <Button
                       colorScheme="blue"
                       variant={
-                        currentLocation === link.path ? "solid" : "ghost"
+                        currentLocation === link.path ? 'solid' : 'ghost'
                       }
                     >
                       {link.linkName}
                     </Button>
                   </Link>
-                );
+                )
               })}
             </Flex>
             <Text color="blue.700" fontSize="xl" fontWeight="black">
@@ -75,7 +75,7 @@ function App() {
           </Box>
 
           {/* mobile nav */}
-          <Flex display={{ base: "flex", md: "none" }} flexDirection="column">
+          <Flex display={{ base: 'flex', md: 'none' }} flexDirection="column">
             <Flex alignItems="center" justifyContent="space-between">
               <Text color="blue.700" fontSize="xl" fontWeight="black">
                 SCOREBOARD
@@ -94,14 +94,14 @@ function App() {
                       to={link.path}
                       key={link.linkName}
                       style={{
-                        display: "flex",
+                        display: 'flex',
                         backgroundColor:
                           currentLocation === link.path
-                            ? "rgba(255,255,255,0.5)"
+                            ? 'rgba(255,255,255,0.5)'
                             : null,
                         height: 50,
-                        alignItems: "center",
-                        justifyContent: "center",
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                       onClick={onToggle}
                     >
@@ -109,7 +109,7 @@ function App() {
                         {link.linkName}
                       </Text>
                     </Link>
-                  );
+                  )
                 })}
               </Stack>
             </Collapse>
@@ -119,18 +119,18 @@ function App() {
 
       <Container maxW="container.xl" p={4}>
         <Switch>
-          <Route exact path={"/"} component={RecordGame} />
-          <Route exact path={"/boardgameList"} component={BoardgamesList} />
-          <Route exact path={"/playersList"} component={PlayersList} />
-          <Route exact path={"/gameRecordList"} component={GameRecordList} />
+          <Route exact path={'/'} component={RecordGame} />
+          <Route exact path={'/boardgameList'} component={BoardgamesList} />
+          <Route exact path={'/playersList'} component={PlayersList} />
+          <Route exact path={'/gameRecordList'} component={GameRecordList} />
           <Route
             exact
-            path={"/playersList/:id/playerDetails"}
+            path={'/playersList/:id/playerDetails'}
             component={PlayerDetails}
           />
         </Switch>
       </Container>
     </Flex>
-  );
+  )
 }
-export default App;
+export default App

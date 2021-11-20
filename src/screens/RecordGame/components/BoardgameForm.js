@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import AddExpansionField from "../../../components/AddExpansionField";
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import PropTypes, { arrayOf } from 'prop-types'
 import {
   Checkbox,
   Heading,
@@ -8,63 +8,55 @@ import {
   InputGroup,
   InputLeftElement,
   Input,
-  Box,
-} from "@chakra-ui/react";
-import { SearchIcon, SmallCloseIcon } from "@chakra-ui/icons";
+  Box
+} from '@chakra-ui/react'
+import { SearchIcon, SmallCloseIcon } from '@chakra-ui/icons'
 
-export default function BoardgameForm({ boardgames, getBoardgameData }) {
-  const [filteredBoardgames, setFilteredBoardgames] = useState(boardgames);
+export default function BoardgameForm ({ boardgames, getBoardgameData }) {
+  const [filteredBoardgames, setFilteredBoardgames] = useState(boardgames)
   const [showBoardgameSearchResults, setShowBoardgameSearchResults] =
-    useState(false);
-  const [boardgamePlayed, setBoardgamePlayed] = useState(null);
-  const expansionsOwned = boardgamePlayed?.boardgamePlayed?.expansionsOwned;
-  const [ownedExpansionsPlayed, setOwnedExpansionsPlayed] = useState([]);
-  const [newExpansionsPlayed, setNewExpansionsPlayed] = useState([]);
-
-  //todo: onFocus open search results listh
-  //todo: limit search results list
+    useState(false)
+  const [boardgamePlayed, setBoardgamePlayed] = useState(null)
+  const expansionsOwned = boardgamePlayed?.boardgamePlayed?.expansionsOwned
+  const [ownedExpansionsPlayed, setOwnedExpansionsPlayed] = useState([])
 
   useEffect(() => {
     getBoardgameData({
       ...boardgamePlayed,
-      expansionsPlayed: [...ownedExpansionsPlayed, ...newExpansionsPlayed],
-    });
-  }, [boardgamePlayed, ownedExpansionsPlayed, newExpansionsPlayed]);
+      expansionsPlayed: [...ownedExpansionsPlayed]
+    })
+  }, [boardgamePlayed, ownedExpansionsPlayed])
 
   const handleBoardgameSearchOnChange = (e) => {
-    setShowBoardgameSearchResults(true);
+    setShowBoardgameSearchResults(true)
     setFilteredBoardgames(
-      boardgames.filter((boardgame) => {
+      boardgames.filter((boardgame, index) => {
         return boardgame.name
           ?.toLowerCase()
-          .includes(e.target.value.toLowerCase());
+          .includes(e.target.value.toLowerCase())
       })
-    );
-  };
+    )
+  }
 
   const handleResultOnClick = (boardgame) => {
     setBoardgamePlayed({
-      boardgamePlayed: { ...boardgame },
-    });
-  };
+      boardgamePlayed: { ...boardgame }
+    })
+  }
 
   const handleBoardgameDelete = () => {
-    setBoardgamePlayed(null);
-  };
-
-  const handleNewExpansions = (newExpansions) => {
-    setNewExpansionsPlayed(newExpansions);
-  };
+    setBoardgamePlayed(null)
+  }
 
   const handleExpansion = (e) => {
-    const ownedExpansionsPlayedCopy = [...ownedExpansionsPlayed];
-    const expansionName = e.target.value;
-    const valueIndex = ownedExpansionsPlayedCopy.indexOf(expansionName);
+    const ownedExpansionsPlayedCopy = [...ownedExpansionsPlayed]
+    const expansionName = e.target.value
+    const valueIndex = ownedExpansionsPlayedCopy.indexOf(expansionName)
     ownedExpansionsPlayed.includes(expansionName)
       ? ownedExpansionsPlayedCopy.splice(valueIndex, 1)
-      : ownedExpansionsPlayedCopy.push(expansionName);
-    setOwnedExpansionsPlayed(ownedExpansionsPlayedCopy);
-  };
+      : ownedExpansionsPlayedCopy.push(expansionName)
+    setOwnedExpansionsPlayed(ownedExpansionsPlayedCopy)
+  }
 
   if (boardgamePlayed !== null) {
     return (
@@ -78,17 +70,16 @@ export default function BoardgameForm({ boardgames, getBoardgameData }) {
           />
           <IconButton
             onClick={() => {
-              setBoardgamePlayed(null);
-              setShowBoardgameSearchResults(false);
-              handleBoardgameDelete();
+              setBoardgamePlayed(null)
+              setShowBoardgameSearchResults(false)
+              handleBoardgameDelete()
             }}
             icon={<SmallCloseIcon />}
-            children={"Delete"}
           />
         </SelectedBoardgameContainer>
         <Box p={1} />
         {expansionsOwned && <Heading size="sm">Expansions Played</Heading>}
-        {expansionsOwned?.map((expansion, index) => {
+        {expansionsOwned.map((expansion, index) => {
           return (
             <Checkbox
               p={2}
@@ -101,38 +92,39 @@ export default function BoardgameForm({ boardgames, getBoardgameData }) {
               style={{
                 borderRadius: 8,
                 borderWidth: 1,
-                borderColor: "lightGrey",
-                width: "100%",
-                flex: 1,
+                borderColor: 'lightGrey',
+                width: '100%',
+                flex: 1
               }}
             >
               <label htmlFor={`expansion${index}`}>{expansion}</label>
             </Checkbox>
-          );
+          )
         })}
         {/* <AddExpansionField
           parentCallback={handleNewExpansions}
         /> */}
       </Box>
-    );
+    )
   } else {
     return (
       <Box style={{ maxWidth: 500 }}>
         <SearchContainer>
           <InputGroup>
-            <InputLeftElement children={<SearchIcon />} />
+            <InputLeftElement><SearchIcon /></InputLeftElement>
             <Input
-              autoComplete={"off"}
-              placeholder={"Search boardgames..."}
+              autoComplete={'off'}
+              placeholder={'Search boardgames...'}
               onChange={(e) => handleBoardgameSearchOnChange(e)}
               onBlur={() => {
-                boardgamePlayed && setShowBoardgameSearchResults(false);
+                boardgamePlayed && setShowBoardgameSearchResults(false)
               }}
             />
           </InputGroup>
           {showBoardgameSearchResults && (
             <SearchResultsList>
-              {filteredBoardgames.map((boardgame) => {
+              {filteredBoardgames.map((boardgame, index) => {
+                if (index > 3) return null
                 return (
                   <Result
                     key={boardgame.name}
@@ -140,13 +132,13 @@ export default function BoardgameForm({ boardgames, getBoardgameData }) {
                   >
                     {boardgame.name}
                   </Result>
-                );
+                )
               })}
             </SearchResultsList>
           )}
         </SearchContainer>
       </Box>
-    );
+    )
   }
 }
 const SearchContainer = styled.div`
@@ -155,13 +147,13 @@ const SearchContainer = styled.div`
   flex-direction: column;
   border-radius: 8px;
   margin-top: 8px;
-`;
+`
 const SearchResultsList = styled.div`
   z-index: 10;
   background-color: white;
   border-radius: 0 0 8px 8px;
   width: 100%;
-`;
+`
 
 const Result = styled.div`
   padding: 8px;
@@ -169,10 +161,15 @@ const Result = styled.div`
   :hover {
     background-color: lightgrey;
   }
-`;
+`
 
 const SelectedBoardgameContainer = styled.div`
   margin-top: 8px;
   display: flex;
   align-items: center;
-`;
+`
+
+BoardgameForm.propTypes = {
+  getBoardgameData: PropTypes.func,
+  boardgames: arrayOf(PropTypes.any)
+}
