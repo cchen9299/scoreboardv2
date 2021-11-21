@@ -14,8 +14,12 @@ import UpsertButton from '../../components/UpsertButton'
 
 function BoardgamesList () {
   const { loading, data } = useQuery(READ_ALL)
-  const boardgames = data?.boardgames
-  const gameRecords = data?.gameRecords
+  if (loading || !data) {
+    return null
+  }
+
+  const boardgames = data.boardgames
+  const gameRecords = data.gameRecords
 
   const dateOptions = {
     year: 'numeric',
@@ -53,10 +57,6 @@ function BoardgamesList () {
       ]
     }
   })
-
-  if (loading || !data) {
-    return null
-  }
 
   return (
     <Box>

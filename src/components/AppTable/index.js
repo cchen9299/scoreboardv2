@@ -25,7 +25,7 @@ export default function AppTable ({
     setFilteredList(contentMap.filter((listItem) => {
       return listItem.cardTitle.toLowerCase().includes(searchTerm.toLowerCase())
     }))
-  }, [searchTerm])
+  }, [contentMap, searchTerm])
 
   return (
     <Box width="100%">

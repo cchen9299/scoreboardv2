@@ -14,6 +14,7 @@ function PlayersList () {
   if (loading || !data) {
     return null
   }
+
   const players = data.players
   const gameRecords = data.gameRecords
 
@@ -23,7 +24,6 @@ function PlayersList () {
         return gamePlayer._id === player._id
       })
     })
-    console.log(playerRecord)
 
     return {
       originalData: player,
