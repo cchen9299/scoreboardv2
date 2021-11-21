@@ -19,7 +19,10 @@ export default function ListCard ({ item, type }) {
         key={cardTitle + index}
         flexDir="column"
         minWidth="30%"
-        p="2"
+        pt="3"
+        pb="3"
+        pl="4"
+        pr="4"
         border={`1px solid ${gray}`}
         borderRadius={8}
         mb="2"
