@@ -45,7 +45,7 @@ function App () {
 
   return (
     <Flex direction={'column'} style={{ height: '100vh' }}>
-      <Flex bg={'blue.100'}>
+      <Flex bg={'blue.100'} style={{ position: 'sticky', top: 0, width: '100%', zIndex: 999 }}>
         <Container maxW="container.xl" pt={2} pb={2}>
           {/* desktop nav */}
           <Box
