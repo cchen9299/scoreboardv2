@@ -1,55 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Box,
   Heading,
-  Flex,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure
+  Flex
 } from '@chakra-ui/react'
 import { useQuery } from '@apollo/client'
 import { READ_RECORDS } from '../../graphql/operations'
 import AppTable from '../../components/AppTable'
 
-function PlayersList () {
-  const { loading, data } = useQuery(READ_RECORDS)
-  const gameRecords = data?.gameRecords
-  const { isOpen, onClose } = useDisclosure()
-
+function GameRecordList () {
+  const { loading, data, refetch } = useQuery(READ_RECORDS)
+  useEffect(() => { refetch() }, [])
   if (!data || loading) {
     return null
   }
+
+  const dateOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  }
+  const dateFormat = new Intl.DateTimeFormat('en-US', dateOptions)
+  const gameRecords = data.gameRecords
+  const contentMap = gameRecords?.map((record) => {
+    return {
+      originalData: record,
+      cardTitle: record.boardgamePlayed.name,
+      subContent: [
+        // { title: 'Winner', content: '...' },
+        {
+          title: 'Date',
+          content: dateFormat.format(new Date(record.date))
+        },
+        {
+          title: 'Players',
+          content: record.players.length
+        }
+      ]
+    }
+  })
 
   return (
     <Box>
       <Heading mb={2}>Game Records</Heading>
       <Flex>{/* <Input placeholder={"Search players..."} /> */}</Flex>
       <Box p={2} />
-      <AppTable type={'GameRecord'} items={gameRecords} hideDelete={true} />
-      <Modal
-        isCentered
-        closeOnOverlayClick={true}
-        isOpen={isOpen}
-        onClose={onClose}
-        blockScrollOnMount={true}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <form>
-            <ModalHeader></ModalHeader>
-            <ModalCloseButton />
-            <ModalBody></ModalBody>
-            <ModalFooter></ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
+      <AppTable contentMap={contentMap} type={'GameRecord'} items={gameRecords} hideDelete={true} />
     </Box>
   )
 }
 
-export default PlayersList
+export default GameRecordList

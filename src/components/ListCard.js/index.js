@@ -29,7 +29,7 @@ export default function ListCard ({ item, type }) {
                 <Text fontSize="sm" color="grey">
                   {data.title}
                 </Text>
-                <Text>{data.content}</Text>
+                <Box>{data.content}</Box>
               </Flex>
             </Box>
           ))}

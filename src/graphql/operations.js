@@ -12,7 +12,7 @@ export const READ_ALL = gql`
       firstName
       lastName
     }
-    gameRecords {
+    gameRecords(sortBy: DATE_DESC) {
       _id
       expansionsPlayed
       date
@@ -59,6 +59,7 @@ export const READ_RECORDS = gql`
       boardgamePlayed {
         _id
         name
+        expansionsOwned
       }
       players {
         firstName
@@ -70,12 +71,26 @@ export const READ_RECORDS = gql`
   }
 `
 
+export const READ_BOARDGAME_RECORDS = gql`
+  query readBoardgameRecords($_id: ObjectId) {
+    gameRecords(query: {_id: $_id} sortBy: DATE_DESC) {
+      boardgamePlayed {
+        _id
+        name
+        expansionsOwned
+      }
+      date
+    }
+  }
+`
+
 export const INSERT_RECORD = gql`
   mutation InsertGameRecord($data: GameRecordInsertInput!) {
     insertOneGameRecord(data: $data) {
       boardgamePlayed {
         _id
         name
+        expansionsOwned
       }
       expansionsPlayed
       date
