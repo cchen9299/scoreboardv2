@@ -1,21 +1,57 @@
-import React from 'react'
-import PropTypes, { arrayOf, objectOf } from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import PropTypes, { arrayOf } from 'prop-types'
 import {
-  Box
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Button
 } from '@chakra-ui/react'
 import ListCard from '../ListCard.js'
+import { SearchIcon } from '@chakra-ui/icons'
 
-// App table handles shaping different lists into consumable map
+// AppTable handles list filtering
 export default function AppTable ({
   contentMap,
-  type,
-  readOperationType,
-  items
+  type
 }) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredList, setFilteredList] = useState(contentMap)
+  const handleOnChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+  useEffect(() => {
+    setFilteredList(contentMap.filter((listItem) => {
+      return listItem.cardTitle.toLowerCase().includes(searchTerm.toLowerCase())
+    }))
+  }, [searchTerm])
+
   return (
     <Box width="100%">
-      {contentMap.map((item) => {
-        return <ListCard item={item} type={type} key={item.originalData._id} readOperationType={readOperationType}/>
+      <InputGroup mb={4}>
+          <InputLeftElement><SearchIcon /></InputLeftElement>
+          <Input
+            autoComplete="off"
+            placeholder={'Search...'}
+            onChange={(e) => handleOnChange(e)}
+            value={searchTerm}
+          />
+          {searchTerm &&
+              <InputRightElement width={75}>
+                  <Button
+                      variant="ghost"
+                      colorScheme="blue"
+                      size="xs"
+                      onClick={() => setSearchTerm('')}
+                  >
+                      CLEAR
+                  </Button>
+              </InputRightElement>
+          }
+      </InputGroup>
+      {filteredList.map((item) => {
+        return <ListCard item={item} type={type} key={item.originalData._id} />
       })}
     </Box>
   )
@@ -23,7 +59,5 @@ export default function AppTable ({
 
 AppTable.propTypes = {
   contentMap: arrayOf(PropTypes.object).isRequired,
-  items: arrayOf(PropTypes.object).isRequired,
-  readOperationType: objectOf(PropTypes.any),
   type: PropTypes.string.isRequired
 }
