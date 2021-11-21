@@ -23,10 +23,8 @@ import { useMutation } from '@apollo/client'
 import {
   READ_PLAYERS,
   READ_BOARDGAMES,
-  READ_RECORDS,
   UPSERT_ONE_PLAYER,
-  UPSERT_ONE_BOARDGAME,
-  UPSERT_ONE_GAMERECORD
+  UPSERT_ONE_BOARDGAME
 } from '../../graphql/operations'
 import AddPlayerFields from '../AddPlayerFIelds'
 import AddExpansionField from '../AddExpansionField'
@@ -58,17 +56,17 @@ export default function UpsertButton ({ item, itemType, operationType }) {
       parentCallback={(newPlayers) => setUpsertingItem(newPlayers)}
     />
   }
-  if (itemType === 'GameRecord') {
-    upsertOperationType = UPSERT_ONE_GAMERECORD
-    readOperationType = READ_RECORDS
-    dataMap = {
-      _id: upsertingItem._id || newObjectId,
-      boardgamePlayed: upsertingItem.boardgamePlayed,
-      expansionsPlayed: [...upsertingItem.expansionsPlayed],
-      players: [...upsertingItem.players],
-      date: upsertingItem.date
-    }
-  }
+  // if (itemType === 'GameRecord') {
+  //   upsertOperationType = UPSERT_ONE_GAMERECORD
+  //   readOperationType = READ_RECORDS
+  //   dataMap = {
+  //     _id: upsertingItem._id || newObjectId,
+  //     boardgamePlayed: upsertingItem.boardgamePlayed,
+  //     expansionsPlayed: [...upsertingItem.expansionsPlayed],
+  //     players: [...upsertingItem.players],
+  //     date: upsertingItem.date
+  //   }
+  // }
   if (itemType === 'Boardgame') {
     upsertOperationType = UPSERT_ONE_BOARDGAME
     readOperationType = READ_BOARDGAMES
@@ -163,7 +161,10 @@ export default function UpsertButton ({ item, itemType, operationType }) {
         isCentered
         closeOnOverlayClick={true}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          setUpsertingItem(item)
+          onClose()
+        }}
         blockScrollOnMount={true}
       >
         <ModalOverlay />
@@ -199,7 +200,7 @@ export default function UpsertButton ({ item, itemType, operationType }) {
 }
 
 UpsertButton.propTypes = {
-  item: objectOf(PropTypes.any).isRequired,
+  item: objectOf(PropTypes.any),
   itemType: PropTypes.string.isRequired,
   operationType: PropTypes.string.isRequired
 }

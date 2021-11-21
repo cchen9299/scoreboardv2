@@ -3,7 +3,9 @@ import {
   Flex,
   Box,
   Text,
-  Wrap
+  Wrap,
+  Heading,
+  useToken
 } from '@chakra-ui/react'
 import DeleteButton from '../DeleteButton'
 import UpsertButton from '../UpsertButton'
@@ -11,25 +13,30 @@ import PropTypes, { objectOf } from 'prop-types'
 
 export default function ListCard ({ item, type }) {
   const { cardTitle, subContent, index, originalData } = item
+  const [gray, blue] = useToken('colors', ['gray.200', 'blue.700'])
   return (
       <Flex
         key={cardTitle + index}
         flexDir="column"
         minWidth="30%"
-        p="2"
-        border="1px solid grey"
+        pt="3"
+        pb="3"
+        pl="4"
+        pr="4"
+        border={`1px solid ${gray}`}
+        borderRadius={8}
         mb="2"
       >
-        <Text>{cardTitle}</Text>
-        <Text>{originalData._id}</Text>
-        <Wrap pt="2" pb="2">
+        <Heading size="md" color={blue}>{cardTitle}</Heading>
+        <Text as="kbd" fontSize="xs">{originalData._id}</Text>
+        <Wrap pt="2" justifyContent="space-between">
           {subContent.map((data) => (
-            <Box key={data.title} minWidth="30%">
+            <Box key={data.title} minWidth="30%" display="flex" flexGrow="1">
               <Flex flexDir="column">
-                <Text fontSize="sm" color="grey">
+                <Text fontWeight="bold" fontSize="sm" color="grey">
                   {data.title}
                 </Text>
-                <Text>{data.content}</Text>
+                <Box>{data.content}</Box>
               </Flex>
             </Box>
           ))}

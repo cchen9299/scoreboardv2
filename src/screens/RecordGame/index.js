@@ -3,7 +3,6 @@ import BoardgameForm from './components/BoardgameForm'
 import PlayersForm from './components/PlayersForm'
 import {
   Button,
-  Spinner,
   Box,
   useToast,
   Flex,
@@ -16,9 +15,9 @@ import { READ_ALL, INSERT_RECORD } from '../../graphql/operations'
 
 function RecordGame () {
   const { loading, data } = useQuery(READ_ALL)
-  const [insertRecord, { loading: adding }] = useMutation(INSERT_RECORD, {
-    READ_ALL
-  })
+  const [insertRecord, { loading: adding }] = useMutation(
+    INSERT_RECORD, { refetchQueries: [READ_ALL] }
+  )
   const toast = useToast()
   let boardgames, players
 
@@ -57,7 +56,8 @@ function RecordGame () {
         data: {
           boardgamePlayed: {
             _id: boardgamePlayed._id,
-            name: boardgamePlayed.name
+            name: boardgamePlayed.name,
+            expansionsOwned: boardgamePlayed.expansionsOwned
           },
           expansionsPlayed: gameRecordBoardgameData.expansionsPlayed,
           players: gameRecordPlayersData,
@@ -91,6 +91,7 @@ function RecordGame () {
       >
         <Heading size="sm">Boardgame</Heading>
         <BoardgameForm
+          isEditing={false}
           boardgames={boardgames}
           getBoardgameData={(data) => {
             setGameRecordBoardgameData(data)
@@ -120,8 +121,9 @@ function RecordGame () {
           disabled={adding}
           width="100%"
           maxW="500px"
+          isLoading={adding}
         >
-          {adding ? <Spinner /> : 'Off to the data base you go'}
+           Off to the data base you go
         </Button>
         {inputError && (
           <Text

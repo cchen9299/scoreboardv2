@@ -5,6 +5,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
+  Button,
   Box
 } from '@chakra-ui/react'
 import PropTypes, { arrayOf } from 'prop-types'
@@ -13,6 +15,7 @@ import styled from 'styled-components'
 
 export default function PlayersForm ({ globalPlayersList, getPlayersData }) {
   const [filteredPlayers, setFilteredPlayers] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
   const [showPlayerSearchResults, setShowPlayerSearchResults] = useState(false)
 
   const [players, setPlayers] = useState([])
@@ -23,6 +26,7 @@ export default function PlayersForm ({ globalPlayersList, getPlayersData }) {
 
   const handlePlayerSearchOnChange = (e) => {
     setShowPlayerSearchResults(true)
+    setSearchTerm(e.target.value)
     setFilteredPlayers(
       globalPlayersList.filter((player, index) => {
         return player.firstName
@@ -69,7 +73,18 @@ export default function PlayersForm ({ globalPlayersList, getPlayersData }) {
               placeholder={'Search players...'}
               onChange={handlePlayerSearchOnChange}
               onBlurCapture={handleOnBlur}
+              value={searchTerm}
             />
+            {searchTerm && <InputRightElement width={75}>
+              <Button
+                variant="ghost"
+                colorScheme="blue"
+                size="xs"
+                onClick={() => setSearchTerm('')}
+              >
+                CLEAR
+              </Button>
+            </InputRightElement>}
           </InputGroup>
         </Flex>
         {showPlayerSearchResults && (
