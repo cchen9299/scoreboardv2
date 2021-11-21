@@ -69,17 +69,21 @@ function App () {
                 )
               })}
             </Flex>
-            <Text color="blue.700" fontSize="xl" fontWeight="black">
-              SCOREBOARD
-            </Text>
+            <Link to={'/'}>
+              <Text color="blue.700" fontSize="xl" fontWeight="black">
+                SCOREBOARD
+              </Text>
+            </Link>
           </Box>
 
           {/* mobile nav */}
           <Flex display={{ base: 'flex', md: 'none' }} flexDirection="column">
             <Flex alignItems="center" justifyContent="space-between">
-              <Text color="blue.700" fontSize="xl" fontWeight="black">
-                SCOREBOARD
-              </Text>
+              <Link to={'/'}>
+                <Text color="blue.700" fontSize="xl" fontWeight="black">
+                  SCOREBOARD
+                </Text>
+              </Link>
               <IconButton
                 onClick={onToggle}
                 icon={isOpen ? <SmallCloseIcon /> : <HamburgerIcon />}
