@@ -16,6 +16,7 @@ export default function AppTable ({
   contentMap,
   type
 }) {
+  console.log(contentMap)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredList, setFilteredList] = useState(contentMap)
   const handleOnChange = (e) => {
@@ -25,7 +26,7 @@ export default function AppTable ({
     setFilteredList(contentMap.filter((listItem) => {
       return listItem.cardTitle.toLowerCase().includes(searchTerm.toLowerCase())
     }))
-  }, [searchTerm])
+  }, [contentMap, searchTerm])
 
   return (
     <Box width="100%">
