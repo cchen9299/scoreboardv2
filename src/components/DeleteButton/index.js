@@ -16,34 +16,28 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons'
 import { useMutation } from '@apollo/client'
 import {
-  READ_BOARDGAMES,
-  READ_PLAYERS,
-  READ_RECORDS,
   DELETE_ONE_PLAYER,
   DELETE_ONE_GAMERECORD,
-  DELETE_ONE_BOARDGAME
+  DELETE_ONE_BOARDGAME,
+  READ_ALL
 } from '../../graphql/operations'
 
 export default function DeleteButton ({ item, type }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  let readOperationType
   let deleteOperationType
   if (type === 'Player') {
     deleteOperationType = DELETE_ONE_PLAYER
-    readOperationType = READ_PLAYERS
   }
   if (type === 'GameRecord') {
     deleteOperationType = DELETE_ONE_GAMERECORD
-    readOperationType = READ_RECORDS
   }
   if (type === 'Boardgame') {
     deleteOperationType = DELETE_ONE_BOARDGAME
-    readOperationType = READ_BOARDGAMES
   }
 
   const [deleteOneItem, { loading: deleting }] = useMutation(
     deleteOperationType,
-    { refetchQueries: [readOperationType] }
+    { refetchQueries: [READ_ALL] }
   )
 
   const handleDelete = async () => {

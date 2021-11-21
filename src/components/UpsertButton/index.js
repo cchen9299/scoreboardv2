@@ -21,8 +21,7 @@ import {
 import { EditIcon } from '@chakra-ui/icons'
 import { useMutation } from '@apollo/client'
 import {
-  READ_PLAYERS,
-  READ_BOARDGAMES,
+  READ_ALL,
   UPSERT_ONE_PLAYER,
   UPSERT_ONE_BOARDGAME
 } from '../../graphql/operations'
@@ -38,14 +37,12 @@ export default function UpsertButton ({ item, itemType, operationType }) {
   const toast = useToast()
 
   let upsertOperationType
-  let readOperationType
   let dataMap
   let content
   const newObjectId = new Types.ObjectId()
 
   if (itemType === 'Player') {
     upsertOperationType = UPSERT_ONE_PLAYER
-    readOperationType = READ_PLAYERS
     dataMap = {
       _id: upsertingItem?._id || newObjectId,
       firstName: upsertingItem?.firstName,
@@ -69,7 +66,6 @@ export default function UpsertButton ({ item, itemType, operationType }) {
   // }
   if (itemType === 'Boardgame') {
     upsertOperationType = UPSERT_ONE_BOARDGAME
-    readOperationType = READ_BOARDGAMES
     dataMap = {
       _id: upsertingItem?._id || newObjectId,
       name: upsertingItem?.name,
@@ -97,7 +93,7 @@ export default function UpsertButton ({ item, itemType, operationType }) {
   }
 
   const [upsertOneEntry, { loading: upserting }] = useMutation(
-    upsertOperationType, { refetchQueries: [readOperationType] }
+    upsertOperationType, { refetchQueries: [READ_ALL] }
   )
 
   const handleSubmit = async (e) => {
