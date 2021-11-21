@@ -72,6 +72,9 @@ function App () {
             <Link to={'/'}>
               <Text color="blue.700" fontSize="xl" fontWeight="black">
                 SCOREBOARD
+                <Text color="gray.500" fontSize="xs" as="kbd" >
+                  {' '}v2.3.0
+                </Text>
               </Text>
             </Link>
           </Box>
@@ -82,6 +85,9 @@ function App () {
               <Link to={'/'}>
                 <Text color="blue.700" fontSize="xl" fontWeight="black">
                   SCOREBOARD
+                  <Text color="gray.500" fontSize="xs" as="kbd" >
+                    {' '}v2.3.0
+                  </Text>
                 </Text>
               </Link>
               <IconButton
@@ -129,7 +135,7 @@ function App () {
           <Route exact path={'/gameRecordList'} component={GameRecordList} />
           <Route
             exact
-            path={'/playersList/:id/playerDetails'}
+            path={'/playersList/:id'}
             component={PlayerDetails}
           />
         </Switch>

@@ -10,6 +10,7 @@ import {
 import DeleteButton from '../DeleteButton'
 import UpsertButton from '../UpsertButton'
 import PropTypes, { objectOf } from 'prop-types'
+import { Link } from 'react-router-dom'
 
 export default function ListCard ({ item, type }) {
   const { cardTitle, subContent, index, originalData } = item
@@ -27,7 +28,9 @@ export default function ListCard ({ item, type }) {
         borderRadius={8}
         mb="2"
       >
-        <Heading size="md" color={blue}>{cardTitle}</Heading>
+        <Link to={`/playersList/${originalData._id}`}>
+           <Heading size="md" color={blue}>{cardTitle}</Heading>
+        </Link>
         <Text as="kbd" fontSize="xs">{originalData._id}</Text>
         <Wrap pt="2" justifyContent="space-between">
           {subContent.map((data) => (

@@ -71,6 +71,31 @@ export const READ_RECORDS = gql`
   }
 `
 
+export const READ_PLAYER_RECORDS = gql`
+  query readBoardgameRecords($_id: ObjectId) {
+    gameRecords(query: {_id: $_id} sortBy: DATE_DESC) {
+      players {
+        _id
+        firstName
+        lastName
+        score
+      }
+      date
+      boardgamePlayed{
+        _id
+        name
+        expansionsOwned
+      }
+      expansionsPlayed
+    }
+    player(query: {_id: $_id}){
+      _id
+      firstName
+      lastName
+    }
+  }
+`
+
 export const READ_BOARDGAME_RECORDS = gql`
   query readBoardgameRecords($_id: ObjectId) {
     gameRecords(query: {_id: $_id} sortBy: DATE_DESC) {
