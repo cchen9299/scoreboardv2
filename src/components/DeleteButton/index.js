@@ -35,7 +35,7 @@ export default function DeleteButton ({ item, type }) {
     deleteOperationType = DELETE_ONE_BOARDGAME
   }
 
-  const [deleteOneItem, { loading }] = useMutation(
+  const [deleteOneItem, { loading: deleting }] = useMutation(
     deleteOperationType,
     { refetchQueries: [READ_ALL] }
   )
@@ -56,7 +56,7 @@ export default function DeleteButton ({ item, type }) {
         />
       <Modal
         isCentered
-        closeOnOverlayClick={!loading}
+        closeOnOverlayClick={!deleting}
         isOpen={isOpen}
         onClose={onClose}
         blockScrollOnMount={true}
@@ -78,14 +78,14 @@ export default function DeleteButton ({ item, type }) {
             /> */}
           </ModalBody>
           <ModalFooter>
-            <Button variant="solid" disabled={loading} onClick={onClose}>
+            <Button variant="solid" disabled={deleting} onClick={onClose}>
               Cancel
             </Button>
             <Button
               colorScheme="red"
               variant="ghost"
               type="submit"
-              isLoading={loading}
+              isLoading={deleting}
               // deleteInputValue === "8008135" &&
               onClick={() => {
                 handleDelete()

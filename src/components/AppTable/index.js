@@ -16,7 +16,6 @@ export default function AppTable ({
   contentMap,
   type
 }) {
-  console.log(contentMap)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredList, setFilteredList] = useState(contentMap)
   const handleOnChange = (e) => {
