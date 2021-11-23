@@ -19,6 +19,7 @@ export const READ_ALL = gql`
       boardgamePlayed {
         _id
         name
+        expansionsOwned
       }
       players {
         firstName
