@@ -78,7 +78,7 @@ export default function BoardgameForm ({ boardgames, getBoardgameData }) {
           />
         </SelectedBoardgameContainer>
         <Box p={1} />
-        {expansionsOwned && <Heading size="sm">Expansions Played</Heading>}
+        {expansionsOwned.lenth > 0 && <Heading size="sm">Expansions Played</Heading>}
         {expansionsOwned.map((expansion, index) => {
           return (
             <Checkbox

@@ -74,6 +74,8 @@ function RecordGame () {
         )
       })
     )
+    // need to figure out other ways to clear form
+    location.reload()
   }
 
   if (!data || loading) {
