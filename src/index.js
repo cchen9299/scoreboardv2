@@ -14,7 +14,9 @@ import { BrowserRouter, HashRouter } from 'react-router-dom'
 import { ChakraProvider } from '@chakra-ui/react'
 
 dotenv.config()
-const APP_ID = 'scoreboard-vvnfl'
+// REMEMBER change this when deploying
+const APP_ID = 'scoreboard-dev-ubvpl'
+
 // const APP_ID = process.env.APP_ID;
 // const API_KEY = process.env.MONGODB_GRAPHQL_API_KEY;
 const app = new Realm.App(APP_ID)

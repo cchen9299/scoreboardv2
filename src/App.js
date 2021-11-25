@@ -17,8 +17,10 @@ import { SmallCloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import BoardgamesList from './screens/BoardgamesList'
 import RecordGame from './screens/RecordGame'
 import PlayersList from './screens/PlayersList'
-import PlayerDetails from './screens/PlayerDetails'
 import GameRecordList from './screens/GameRecordList'
+import PlayerDetails from './screens/PlayerDetails'
+import BoardgameDetails from './screens/BoardgameDetails'
+import GameRecordDetails from './screens/GameRecordDetails'
 
 function App () {
   const currentLocation = useLocation().pathname
@@ -34,7 +36,7 @@ function App () {
       linkName: 'Boardgames'
     },
     {
-      path: '/playersList',
+      path: '/playerList',
       linkName: 'Players'
     },
     {
@@ -73,7 +75,7 @@ function App () {
               <Text color="blue.700" fontSize="xl" fontWeight="black">
                 SCOREBOARD
                 <Text color="gray.500" fontSize="xs" as="kbd" >
-                  {' '}v2.3.0
+                  {' '}v0.2.3
                 </Text>
               </Text>
             </Link>
@@ -86,7 +88,7 @@ function App () {
                 <Text color="blue.700" fontSize="xl" fontWeight="black">
                   SCOREBOARD
                   <Text color="gray.500" fontSize="xs" as="kbd" >
-                    {' '}v2.3.0
+                    {' '}v0.2.3
                   </Text>
                 </Text>
               </Link>
@@ -131,12 +133,22 @@ function App () {
         <Switch>
           <Route exact path={'/'} component={RecordGame} />
           <Route exact path={'/boardgameList'} component={BoardgamesList} />
-          <Route exact path={'/playersList'} component={PlayersList} />
+          <Route exact path={'/playerList'} component={PlayersList} />
           <Route exact path={'/gameRecordList'} component={GameRecordList} />
           <Route
             exact
-            path={'/playersList/:id'}
+            path={'/playerList/:id'}
             component={PlayerDetails}
+          />
+          <Route
+            exact
+            path={'/boardgameList/:id'}
+            component={BoardgameDetails}
+          />
+          <Route
+            exact
+            path={'/gameRecordList/:id'}
+            component={GameRecordDetails}
           />
         </Switch>
       </Container>

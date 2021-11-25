@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 export default function ListCard ({ item, type }) {
   const { cardTitle, subContent, index, originalData } = item
   const [gray, blue] = useToken('colors', ['gray.200', 'blue.700'])
+  const baseRoute = type.toLowerCase()
   return (
       <Flex
         key={cardTitle + index}
@@ -28,7 +29,7 @@ export default function ListCard ({ item, type }) {
         borderRadius={8}
         mb="2"
       >
-        <Link to={`/playersList/${originalData._id}`}>
+        <Link to={`/${baseRoute}List/${originalData._id}`}>
            <Heading size="md" color={blue}>{cardTitle}</Heading>
         </Link>
         <Text as="kbd" fontSize="xs">{originalData._id}</Text>
