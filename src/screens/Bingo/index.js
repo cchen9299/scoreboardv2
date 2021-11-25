@@ -1,8 +1,8 @@
 import { Checkbox } from '@chakra-ui/checkbox'
 import { Wrap, Text } from '@chakra-ui/layout'
-import React, { useState } from 'react'
+import React from 'react'
 
-export default function Bingo ({}) {
+export default function Bingo () {
   const arr = [
     'Office quote',
     'Seinfeld quite',
@@ -48,7 +48,6 @@ export default function Bingo ({}) {
 
   let newArr = []
   const collection = []
-  const [selectedSquare, setSelectedSquare] = useState([])
 
   const genRandom = (a) => {
     const copyA = [...a]
