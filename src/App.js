@@ -19,6 +19,7 @@ import RecordGame from './screens/RecordGame'
 import PlayersList from './screens/PlayersList'
 import PlayerDetails from './screens/PlayerDetails'
 import GameRecordList from './screens/GameRecordList'
+import Bingo from './screens/Bingo'
 
 function App () {
   const currentLocation = useLocation().pathname
@@ -40,6 +41,10 @@ function App () {
     {
       path: '/gameRecordList',
       linkName: 'History'
+    },
+    {
+      path: '/bingo',
+      linkName: 'Bingo'
     }
   ]
 
@@ -124,6 +129,7 @@ function App () {
       <Container maxW="container.xl" p={4}>
         <Switch>
           <Route exact path={'/'} component={RecordGame} />
+          <Route exact path={'/bingo'} component={Bingo} />
           <Route exact path={'/boardgameList'} component={BoardgamesList} />
           <Route exact path={'/playersList'} component={PlayersList} />
           <Route exact path={'/gameRecordList'} component={GameRecordList} />
